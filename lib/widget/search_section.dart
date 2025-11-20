@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:pharmacy_task/color_section/color.dart';
 
 class SearchWidget extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final Function(String) onChanged;
 
-  const SearchWidget({super.key, 
+  SearchWidget({
     required this.controller,
     required this.hintText,
     required this.onChanged,
@@ -14,23 +15,30 @@ class SearchWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: MediaQuery.of(context).size.width * 0.95,
       decoration: BoxDecoration(
-        color: Colors.blue[50],
+        color: AppColors.bgColor2,
         borderRadius: BorderRadius.circular(30.0),
       ),
       child: TextField(
         controller: controller,
         onChanged: onChanged,
-        style: const TextStyle(color: Colors.brown),
+        style: const TextStyle(color: AppColors.textColor2),
+        textAlign: TextAlign.left,
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           border: InputBorder.none,
-          icon: const Icon(
+          prefixIcon: const Icon(
             Icons.search,
-            color: Colors.brown,
+            color: AppColors.textColor2,
+            size: 25,
           ),
           hintText: hintText,
-          hintStyle: TextStyle(color: Colors.brown.withOpacity(0.5)),
+          hintStyle: TextStyle(
+              fontSize: 18, color: AppColors.textColor2.withOpacity(0.5)),
+          iconColor: AppColors.textColor2,
+          isDense: true,
         ),
       ),
     );

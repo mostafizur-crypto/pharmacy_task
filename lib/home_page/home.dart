@@ -55,19 +55,20 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      body: Center(
-        child: Container(
-            child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SearchWidget(
+      body: Container(
+          child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: SearchWidget(
               controller: TextEditingController(),
               hintText: 'Search for "medicine"',
               onChanged: (text) {},
             ),
-          ],
-        )),
-      ),
+          ),
+        ],
+      )),
     );
   }
 }
