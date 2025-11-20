@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pharmacy_task/color_section/color.dart';
 import 'package:pharmacy_task/model/cartModel.dart';
+import 'package:pharmacy_task/widget/categories_section.dart';
 import 'package:pharmacy_task/widget/search_section.dart';
 import 'package:pharmacy_task/widget/slide_section.dart';
 import 'package:provider/provider.dart';
@@ -79,6 +80,17 @@ class HomePage extends StatelessWidget {
           ),
           //MARK: Slide widget
           const SlideSection(),
+          //MARK: Category widget
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(left: 10),
+                child: Text('Categories', style: TextStyle(fontSize: 24)),
+              ),
+              CategoriesSection(),
+            ],
+          ),
         ],
       ),
     );
