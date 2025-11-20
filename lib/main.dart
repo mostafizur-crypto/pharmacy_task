@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:pharmacy_task/home_page/home.dart';
 import 'package:pharmacy_task/model/cartModel.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   runApp(
@@ -18,7 +18,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      color:Colors.white,
       debugShowCheckedModeBanner: false,
       home: HomePage(),
     );

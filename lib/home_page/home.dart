@@ -2,16 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:pharmacy_task/color_section/color.dart';
 import 'package:pharmacy_task/model/cartModel.dart';
 import 'package:pharmacy_task/widget/search_section.dart';
+import 'package:pharmacy_task/widget/slide_section.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
+  final String jsonData = '''
+    [
+      {"title": "Slide 1", "color": "#F5A9B8"},
+      {"title": "Slide 2", "color": "#B0E0E6"},
+      {"title": "Slide 3", "color": "#F0E68C"}
+    ]
+  ''';
   @override
   Widget build(BuildContext context) {
     final cartModel = Provider.of<CartModel>(context);
     return Scaffold(
+      backgroundColor: AppColors.appColor,
       appBar: AppBar(
+        backgroundColor: AppColors.appColor,
         title: Row(
           children: [
             const Column(
@@ -19,11 +28,11 @@ class HomePage extends StatelessWidget {
               children: [
                 Text(
                   'Logo',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
                 ),
                 Text(
                   'Delivery to Choice Address',
-                  style: TextStyle(fontSize: 15, color: AppColors.greyColor),
+                  style: TextStyle(fontSize: 16, color: AppColors.greyColor),
                 ),
               ],
             ),
@@ -55,20 +64,23 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      body: Container(
-          child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          //MARK:Search widget
           Padding(
-            padding: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(top: 15),
             child: SearchWidget(
               controller: TextEditingController(),
               hintText: 'Search for "medicine"',
               onChanged: (text) {},
             ),
           ),
+          //MARK: Slide widget
+          const SlideSection(),
         ],
-      )),
+      ),
     );
   }
 }

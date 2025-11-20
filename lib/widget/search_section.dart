@@ -35,8 +35,8 @@ class SearchWidget extends StatelessWidget {
             size: 25,
           ),
           hintText: hintText,
-          hintStyle: TextStyle(
-              fontSize: 18, color: AppColors.textColor2.withOpacity(0.5)),
+          hintStyle: const TextStyle(
+              fontSize: 18, color: AppColors.textColor2),
           iconColor: AppColors.textColor2,
           isDense: true,
         ),
