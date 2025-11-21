@@ -29,8 +29,7 @@ class BestsellSection extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // Wrap the image and the discount circle in a Stack
+          children: [ 
             Stack(
               children: [
                 Center(
@@ -40,8 +39,7 @@ class BestsellSection extends StatelessWidget {
                     width: 100,
                     fit: BoxFit.cover,
                   ),
-                ),
-                // Positioned widget to place the "9% Off" circle
+                ), 
                 const Positioned(
                   top: 5,
                   right: 5,

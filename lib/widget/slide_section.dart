@@ -62,7 +62,7 @@ class AutoSliderState extends State<SlideSection> {
             Padding(
               padding: const EdgeInsets.all(14),
               child: Container(
-                height: 200.0,
+                height: 160,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: const [
@@ -86,7 +86,7 @@ class AutoSliderState extends State<SlideSection> {
                         child: Text(
                           _slides[index],
                           style: const TextStyle(
-                              fontSize: 24, color: Colors.white),
+                              fontSize: 22, color: AppColors.textColor),
                         ),
                       ),
                     );
@@ -98,7 +98,7 @@ class AutoSliderState extends State<SlideSection> {
               top: 0,
               left: 0,
               right: 0,
-              bottom: -170,
+              bottom: -140,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(
