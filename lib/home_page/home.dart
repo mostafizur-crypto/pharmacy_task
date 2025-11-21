@@ -23,6 +23,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  //MARK: Flash Sale jeson data
   final List<DiscountSaleModel> products = [
     DiscountSaleModel.fromJson({
       "name": "Systema Charcoal\nGuard Toothbrush",
@@ -55,7 +56,7 @@ class _HomePageState extends State<HomePage> {
       "product_url": "link_to_product_page"
     }),
   ];
-
+  //MARK: Best Sale jeson data
   final List<Bestsellmodel> bestproducts = [
     Bestsellmodel.fromJson({
       "name": "Napa",
@@ -189,7 +190,7 @@ class _HomePageState extends State<HomePage> {
                         shape: BoxShape.circle,
                       ),
                       child: Text(
-                        '${cartModel.count}', // Display the cart count
+                        '${cartModel.count}',
                         style:
                             const TextStyle(fontSize: 10, color: Colors.white),
                       ),
@@ -208,6 +209,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             const SizedBox(height: 15),
+            //MARK: Search Slide Categories Section
             SearchWidget(
               controller: TextEditingController(),
               hintText: 'Search for "medicine"',
@@ -229,7 +231,7 @@ class _HomePageState extends State<HomePage> {
                 jsonEncode(model.toJson());
               },
             ),
-            // Flash Sale Section
+            //MARK: Flash Sale Section
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -268,7 +270,7 @@ class _HomePageState extends State<HomePage> {
                 )
               ],
             ),
-            // Best Selling Products Section
+            //MARK: Best Selling Products Section
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -306,6 +308,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+      //Bottom Navigator BAr
       bottomNavigationBar: MenubarSection(
         selectedIndex: 1,
         onItemTapped: (index) {

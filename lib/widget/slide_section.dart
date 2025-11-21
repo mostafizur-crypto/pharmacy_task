@@ -48,10 +48,8 @@ class AutoSliderState extends State<SlideSection> {
           currentPage,
           duration: const Duration(milliseconds: 400),
           curve: Curves.easeInOut,
-        );
-      } catch (e) {
-        // ignore crash when layout not ready
-      }
+        ); 
+      } catch (e) { }
 
       setState(() {});
     });
@@ -60,7 +58,7 @@ class AutoSliderState extends State<SlideSection> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 160, // IMPORTANT: gives PageView a real viewport
+      height: 160, 
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
