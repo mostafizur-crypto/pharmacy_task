@@ -5,7 +5,8 @@ import 'package:pharmacy_task/model/bestsellModel.dart';
 import 'package:pharmacy_task/model/cartModel.dart';
 import 'package:pharmacy_task/model/discount_sale_model.dart';
 import 'package:pharmacy_task/model/prescriptionModel.dart';
-import 'package:pharmacy_task/widget/bestsell_section.dart';
+import 'package:pharmacy_task/widget/bestsale_section.dart';
+import 'package:pharmacy_task/widget/cart_drawer.dart';
 import 'package:pharmacy_task/widget/categories_section.dart';
 import 'package:pharmacy_task/widget/discount_sale_section.dart';
 import 'package:pharmacy_task/widget/menubar_section.dart';
@@ -14,9 +15,14 @@ import 'package:pharmacy_task/widget/search_section.dart';
 import 'package:pharmacy_task/widget/slide_section.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final List<DiscountSaleModel> products = [
     DiscountSaleModel.fromJson({
       "name": "Systema Charcoal\nGuard Toothbrush",
@@ -92,8 +98,8 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppColors.appColor,
-
       appBar: AppBar(
+        leading: null,
         automaticallyImplyLeading: false,
         backgroundColor: AppColors.appColor,
         title: Row(
@@ -121,7 +127,7 @@ class HomePage extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  '${cartModel.price} BDT',
+                  '${cartModel.totalPrice} BDT',
                   style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -129,19 +135,75 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 20),
-            const Icon(Icons.shopping_cart_outlined,
-                color: AppColors.iconColor, size: 30),
+            const SizedBox(width: 10),
+            GestureDetector(
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (BuildContext context) {
+                    return Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.6,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20),
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: IconButton(
+                                icon: const Icon(Icons.close),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
+                            const Expanded(
+                              child: CartDrawer(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+              child: Stack(
+                children: [
+                  const Icon(Icons.shopping_cart_outlined,
+                      color: AppColors.iconColor, size: 30),
+                  Positioned(
+                    top: -5,
+                    right: -2,
+                    child: Container(
+                      padding: const EdgeInsets.all(7),
+                      decoration: const BoxDecoration(
+                        color: AppColors.iconColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Text(
+                        '${cartModel.count}', // Display the cart count
+                        style:
+                            const TextStyle(fontSize: 10, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             const SizedBox(width: 6),
             const Icon(Icons.notifications_none,
                 color: AppColors.iconColor, size: 30),
           ],
         ),
       ),
-
-      // ------------------
-      //     BODY
-      // ------------------
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -167,11 +229,12 @@ class HomePage extends StatelessWidget {
                 jsonEncode(model.toJson());
               },
             ),
+            // Flash Sale Section
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Row(
                     children: [
                       Image.asset('assets/icon/icon1.png', height: 30),
@@ -191,7 +254,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 GridView.builder(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -205,11 +268,12 @@ class HomePage extends StatelessWidget {
                 )
               ],
             ),
+            // Best Selling Products Section
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Row(
                     children: [
                       const Text('Best Selling Products',
@@ -225,7 +289,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 GridView.builder(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -234,7 +298,7 @@ class HomePage extends StatelessWidget {
                   ),
                   itemCount: bestproducts.length,
                   itemBuilder: (context, index) {
-                    return BestsellSection(product: bestproducts[index]);
+                    return BestsaleSection(product: bestproducts[index]);
                   },
                 )
               ],
@@ -242,7 +306,6 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      //MARK: Button Widget Section
       bottomNavigationBar: MenubarSection(
         selectedIndex: 1,
         onItemTapped: (index) {

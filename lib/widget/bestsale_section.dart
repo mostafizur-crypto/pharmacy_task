@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:pharmacy_task/color_section/color.dart';
 import 'package:pharmacy_task/model/bestsellModel.dart';
+import 'package:pharmacy_task/model/cartModel.dart';
+import 'package:provider/provider.dart';
 
-class BestsellSection extends StatelessWidget {
+class BestsaleSection extends StatelessWidget {
   final Bestsellmodel product;
 
-  const BestsellSection({super.key, required this.product});
+  const BestsaleSection({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class BestsellSection extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [ 
+          children: [
             Stack(
               children: [
                 Center(
@@ -39,7 +41,7 @@ class BestsellSection extends StatelessWidget {
                     width: 100,
                     fit: BoxFit.cover,
                   ),
-                ), 
+                ),
                 const Positioned(
                   top: 5,
                   right: 5,
@@ -125,7 +127,15 @@ class BestsellSection extends StatelessWidget {
                 ),
                 const Spacer(),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Provider.of<CartModel>(context, listen: false).addItem(
+                      CartItem(
+                        name: "${product.name} ${product.power}",
+                        image: product.image,
+                        price: product.discountPrice,
+                      ),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 2),

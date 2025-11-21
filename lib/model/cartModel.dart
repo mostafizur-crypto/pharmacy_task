@@ -1,19 +1,40 @@
 import 'package:flutter/material.dart';
+ 
+class CartItem {
+  final String name;
+  final String image;
+  final double price;
+
+  CartItem({
+    required this.name,
+    required this.image,
+    required this.price,
+  });
+}
 
 class CartModel extends ChangeNotifier {
-  double _price = 00;
-  String _address = "Delivery to Choice Address";
+  final List<CartItem> _items = [];
 
-  double get price => _price;
-  String get address => _address;
+  List<CartItem> get items => _items;
 
-  void updatePrice(double newPrice) {
-    _price = newPrice;
+  int get count => _items.length;
+
+  double get totalPrice {
+    return _items.fold(0, (sum, item) => sum + item.price);
+  }
+
+  void addItem(CartItem item) {
+    _items.add(item);
     notifyListeners();
   }
 
-  void updateAddress(String newAddress) {
-    _address = newAddress;
+  void removeItem(int index) {
+    _items.removeAt(index);
+    notifyListeners();
+  }
+
+  void clearCart() {
+    _items.clear();
     notifyListeners();
   }
 }

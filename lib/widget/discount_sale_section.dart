@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pharmacy_task/color_section/color.dart';
+import 'package:pharmacy_task/model/cartModel.dart';
 import 'package:pharmacy_task/model/discount_sale_model.dart';
+import 'package:provider/provider.dart';
 
 class DiscountSaleSection extends StatelessWidget {
   final DiscountSaleModel product;
@@ -110,7 +112,15 @@ class DiscountSaleSection extends StatelessWidget {
                 ),
                 const Spacer(),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Provider.of<CartModel>(context, listen: false).addItem(
+                      CartItem(
+                        name: product.name,
+                        image: product.image,
+                        price: product.discountPrice,
+                      ),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 2),
