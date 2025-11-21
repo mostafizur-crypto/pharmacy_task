@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:pharmacy_task/color_section/color.dart';
+import 'package:pharmacy_task/model/bestsellModel.dart';
 import 'package:pharmacy_task/model/cartModel.dart';
 import 'package:pharmacy_task/model/discount_sale_model.dart';
 import 'package:pharmacy_task/model/prescriptionModel.dart';
+import 'package:pharmacy_task/widget/bestsell_section.dart';
 import 'package:pharmacy_task/widget/categories_section.dart';
 import 'package:pharmacy_task/widget/discount_sale_section.dart';
 import 'package:pharmacy_task/widget/precription_section.dart';
@@ -42,6 +44,41 @@ class HomePage extends StatelessWidget {
       "rating": 4.5,
       "original_price": 120,
       "discount_price": 135,
+      "discount_percentage": 10,
+      "reviews_count": 88,
+      "product_url": "link_to_product_page"
+    }),
+  ];
+  final List<Bestsellmodel> bestproducts = [
+    Bestsellmodel.fromJson({
+      "name": "Napa",
+      "power": "Tablet 500mg",
+      "image": "assets/image/product1.png",
+      "rating": 4.5,
+      "original_price": 12,
+      "discount_price": 10,
+      "discount_percentage": 10,
+      "reviews_count": 88,
+      "product_url": "link_to_product_page"
+    }),
+    Bestsellmodel.fromJson({
+      "name": "Sergel",
+      "power": "Capsule 20mg",
+      "image": "assets/image/product2.png",
+      "rating": 4.7,
+      "original_price": 70,
+      "discount_price": 62,
+      "discount_percentage": 30,
+      "reviews_count": 88,
+      "product_url": "link_to_product_page"
+    }),
+    Bestsellmodel.fromJson({
+      "name": "Pantonix",
+      "power": "Tablet 20mg",
+      "image": "assets/image/product3.png",
+      "rating": 4.5,
+      "original_price": 108,
+      "discount_price": 98,
       "discount_percentage": 10,
       "reviews_count": 88,
       "product_url": "link_to_product_page"
@@ -198,11 +235,11 @@ class HomePage extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
-                    childAspectRatio: 0.61,
+                    childAspectRatio: 0.67,
                   ),
-                  itemCount: products.length,
+                  itemCount: bestproducts.length,
                   itemBuilder: (context, index) {
-                    return DiscountSaleSection(product: products[index]);
+                    return BestsellSection(product: bestproducts[index]);
                   },
                 )
               ],
