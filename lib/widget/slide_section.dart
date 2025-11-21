@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-
 import 'package:pharmacy_task/color_section/color.dart';
 
 class SlideSection extends StatefulWidget {
@@ -11,116 +10,108 @@ class SlideSection extends StatefulWidget {
 }
 
 class AutoSliderState extends State<SlideSection> {
-  late PageController _pageController;
-  int _currentPage = 0;
-  late Timer _timer;
+  late PageController pageController;
+  int currentPage = 0;
+  Timer? timer;
 
-  final List<String> _slides = [
-    "Slide 1",
-    "Slide 2",
-    "Slide 3",
-    "Slide 4",
-  ];
+  final List<String> slides = ["Slide 1", "Slide 2", "Slide 3", "Slide 4"];
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
-    _startAutoSlide();
+
+    pageController = PageController(
+      initialPage: 0,
+    );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _startAutoSlide();
+    });
   }
 
   @override
   void dispose() {
-    _timer.cancel();
+    timer?.cancel();
+    pageController.dispose();
     super.dispose();
   }
 
   void _startAutoSlide() {
-    _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
-      setState(() {
-        if (_currentPage < _slides.length - 1) {
-          _currentPage++;
-        } else {
-          _currentPage = 0;
-        }
-      });
+    timer = Timer.periodic(const Duration(seconds: 3), (timer) {
+      if (!mounted) return;
+      if (!pageController.hasClients) return;
 
-      _pageController.animateToPage(
-        _currentPage,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+      currentPage = (currentPage + 1) % slides.length;
+
+      try {
+        pageController.animateToPage(
+          currentPage,
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.easeInOut,
+        );
+      } catch (e) {
+        // ignore crash when layout not ready
+      }
+
+      setState(() {});
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(14),
-              child: Container(
-                height: 160,
+    return SizedBox(
+      height: 160, // IMPORTANT: gives PageView a real viewport
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          PageView.builder(
+            controller: pageController,
+            itemCount: slides.length,
+            onPageChanged: (index) {
+              setState(() => currentPage = index);
+            },
+            itemBuilder: (context, index) {
+              return Container(
+                margin: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: const [
-                    BoxShadow(color: Colors.black26, blurRadius: 5)
-                  ],
+                  borderRadius: BorderRadius.circular(14),
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFFFFE6E6), Color(0xFFF5A0A0)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
                 ),
-                child: PageView.builder(
-                  controller: _pageController,
-                  itemCount: _slides.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [Color(0xFFFFE6E6), Color(0xFFF5A0A0)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: Center(
-                        child: Text(
-                          _slides[index],
-                          style: const TextStyle(
-                              fontSize: 22, color: AppColors.textColor),
-                        ),
-                      ),
-                    );
-                  },
+                child: Center(
+                  child: Text(
+                    slides[index],
+                    style: const TextStyle(fontSize: 22, color: Colors.black),
+                  ),
                 ),
-              ),
-            ),
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: -140,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(
-                  _slides.length,
-                  (index) => AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    margin: const EdgeInsets.symmetric(horizontal: 5),
-                    height: 10,
-                    width: 10,
-                    decoration: BoxDecoration(
-                      color: _currentPage == index
-                          ? AppColors.iconColor
-                          : AppColors.textColor,
-                      shape: BoxShape.circle,
-                    ),
+              );
+            },
+          ),
+          Positioned(
+            bottom: 20,
+            child: Row(
+              children: List.generate(
+                slides.length,
+                (index) => AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  margin: const EdgeInsets.symmetric(horizontal: 2),
+                  height: 9,
+                  width: currentPage == index ? 12 : 10,
+                  decoration: BoxDecoration(
+                    color: currentPage == index
+                        ? AppColors.iconColor
+                        : AppColors.textColor,
+                    shape: BoxShape.circle,
                   ),
                 ),
               ),
             ),
-          ],
-        ),
-      ],
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:pharmacy_task/color_section/color.dart';
 import 'package:pharmacy_task/model/bestsellModel.dart';
@@ -9,6 +8,7 @@ import 'package:pharmacy_task/model/prescriptionModel.dart';
 import 'package:pharmacy_task/widget/bestsell_section.dart';
 import 'package:pharmacy_task/widget/categories_section.dart';
 import 'package:pharmacy_task/widget/discount_sale_section.dart';
+import 'package:pharmacy_task/widget/menubar_section.dart';
 import 'package:pharmacy_task/widget/precription_section.dart';
 import 'package:pharmacy_task/widget/search_section.dart';
 import 'package:pharmacy_task/widget/slide_section.dart';
@@ -49,6 +49,7 @@ class HomePage extends StatelessWidget {
       "product_url": "link_to_product_page"
     }),
   ];
+
   final List<Bestsellmodel> bestproducts = [
     Bestsellmodel.fromJson({
       "name": "Napa",
@@ -84,12 +85,16 @@ class HomePage extends StatelessWidget {
       "product_url": "link_to_product_page"
     }),
   ];
+
   @override
   Widget build(BuildContext context) {
     final cartModel = Provider.of<CartModel>(context);
+
     return Scaffold(
       backgroundColor: AppColors.appColor,
+
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: AppColors.appColor,
         title: Row(
           children: [
@@ -111,18 +116,17 @@ class HomePage extends StatelessWidget {
               width: 70,
               height: 30,
               decoration: BoxDecoration(
-                  color: AppColors.bgColor,
-                  borderRadius: BorderRadius.circular(5)),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('${cartModel.price} BDT',
-                      style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textColor)),
-                ],
+                color: AppColors.bgColor,
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Center(
+                child: Text(
+                  '${cartModel.price} BDT',
+                  style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.textColor),
+                ),
               ),
             ),
             const SizedBox(width: 20),
@@ -134,23 +138,20 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
+
+      // ------------------
+      //     BODY
+      // ------------------
       body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            //MARK:Search widget
-            Padding(
-              padding: const EdgeInsets.only(top: 15),
-              child: SearchWidget(
-                controller: TextEditingController(),
-                hintText: 'Search for "medicine"',
-                onChanged: (text) {},
-              ),
+            const SizedBox(height: 15),
+            SearchWidget(
+              controller: TextEditingController(),
+              hintText: 'Search for "medicine"',
+              onChanged: (text) {},
             ),
-            //MARK: Slide widget
             const SlideSection(),
-            //MARK: Category widget
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -161,18 +162,11 @@ class HomePage extends StatelessWidget {
                 CategoriesSection(),
               ],
             ),
-            //MARK: upload Prescription widget
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                PrecriptionSection(
-                  onUpload: (PrescriptionModel model) {
-                    jsonEncode(model.toJson());
-                  },
-                ),
-              ],
+            PrecriptionSection(
+              onUpload: (PrescriptionModel model) {
+                jsonEncode(model.toJson());
+              },
             ),
-            //MARK: Discount Section widget
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -188,10 +182,11 @@ class HomePage extends StatelessWidget {
                       ),
                       const Spacer(),
                       TextButton(
-                          onPressed: () {},
-                          child: const Text('See All',
-                              style: TextStyle(
-                                  fontSize: 18, color: AppColors.textColor))),
+                        onPressed: () {},
+                        child: const Text('See All',
+                            style: TextStyle(
+                                fontSize: 18, color: AppColors.textColor)),
+                      ),
                     ],
                   ),
                 ),
@@ -210,7 +205,6 @@ class HomePage extends StatelessWidget {
                 )
               ],
             ),
-            //MARK: Best Selling Section widget
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -222,10 +216,11 @@ class HomePage extends StatelessWidget {
                           style: TextStyle(fontSize: 24)),
                       const Spacer(),
                       TextButton(
-                          onPressed: () {},
-                          child: const Text('See All',
-                              style: TextStyle(
-                                  fontSize: 18, color: AppColors.textColor))),
+                        onPressed: () {},
+                        child: const Text('See All',
+                            style: TextStyle(
+                                fontSize: 18, color: AppColors.textColor)),
+                      ),
                     ],
                   ),
                 ),
@@ -244,9 +239,25 @@ class HomePage extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(height: 100)
           ],
         ),
+      ),
+      //MARK: Button Widget Section
+      bottomNavigationBar: MenubarSection(
+        selectedIndex: 1,
+        onItemTapped: (index) {
+          if (index == 0) {
+            Navigator.pushReplacementNamed(context, "/home");
+          } else if (index == 1) {
+            return;
+          } else if (index == 2) {
+            Navigator.pushReplacementNamed(context, "/doctor");
+          } else if (index == 3) {
+            Navigator.pushReplacementNamed(context, "/labtest");
+          } else if (index == 4) {
+            Navigator.pushReplacementNamed(context, "/menu");
+          }
+        },
       ),
     );
   }

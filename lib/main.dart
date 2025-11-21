@@ -20,6 +20,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: HomePage(),
+      routes: {
+        // "/home": (context) => const HomePage(),
+        "/pharmacy": (context) => HomePage(),
+        // "/doctor": (context) => const DoctorPage(),
+        // "/labtest": (context) => const LabTestPage(),
+        // "/menu": (context) => const MenuPage(),
+      },
     );
   }
 }
