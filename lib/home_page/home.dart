@@ -95,8 +95,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final cartModel = Provider.of<CartModel>(context);
-
+    final cartModel = Provider.of<CartModel>(context); 
     return Scaffold(
       backgroundColor: AppColors.appColor,
       appBar: AppBar(
